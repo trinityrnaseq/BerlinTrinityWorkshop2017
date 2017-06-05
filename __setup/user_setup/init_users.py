@@ -12,6 +12,7 @@ logging.basicConfig(stream=sys.stderr, level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 
+docker_image = "trinityctat/berlin2017"
 
 def main():
 
@@ -19,19 +20,20 @@ def main():
     
     parser.add_argument("--num_users", type=int, default="", required=True, help="number of users")
     parser.add_argument("--ip_addr", type=str, required=True, help="IP address for server")
-    parser.add_argument("--user_id_start", type=int, required=True, help="index to start user IDs (ex. 1)")
+
+    parser.add_argument("--user_id_start", type=int, default=1, help="index to start user IDs (ex. 1)")
     
     parser.add_argument("--apache_base_port", type=int, default=8001, help="base port for apache")
     parser.add_argument("--gateone_base_port", type=int, default=9001, help="base port for gateone")
-    parser.add_argument("--rstudio_base_port", type=int, default=10001, help="base port for rstudio")
+    parser.add_argument("--ssh_base_port", type=int, default=10001, help="base port for rstudio")
 
     args = parser.parse_args()
 
     
     apache_user_port = args.apache_base_port
     gateone_user_port = args.gateone_base_port
-    rstudio_user_port = args.rstudio_base_port
-
+    ssh_user_port = args.ssh_base_port
+    
     users_basedir = os.path.abspath("user_spaces")
     if not os.path.isdir(users_basedir):
         os.makedirs(users_basedir)
@@ -41,7 +43,7 @@ def main():
 
     user_id_start = args.user_id_start
     
-    for i in range(user_id_start, user_id_start + args.num_users + 1):
+    for i in range(user_id_start, user_id_start + args.num_users):
         
         # create user directory
         user = "user_{:02d}".format(i)
@@ -55,27 +57,19 @@ def main():
                   " -v {}:/var/www/html ".format(user_dir) +
                   " -v /home/training/workshop_shared/js:/var/www/html/js:ro " +
                   " -v /home/training/workshop_shared/css:/var/www/html/css:ro " +
-                  " -p {}:80 -p {}:443 ".format(apache_user_port, gateone_user_port) +
-                  " --name trinity_{} -d bernws2016/trinity".format(user))
+                  " -p {}:22 -p {}:80 -p {}:443 ".format(ssh_user_port, apache_user_port, gateone_user_port) +
+                  " --name trinity_{} -d {}".format(user, docker_image))
         
         #subprocess.check_output(cmd)
         
         print(cmd)
         
-        cmd = str("docker run " +
-                  " -v {}:{} ".format(user_dir, "/home/training") +
-                  " -v /home/training/workshop_shared/shared:/home/training/shared_ro:ro " +
-                  " -p {}:8787 ".format(rstudio_user_port) +
-                  " --name rstudio_{} -d trinityctat/scell".format(user))
-
-        print(cmd)
-
         print()
 
         
         apache_user_port += 1
         gateone_user_port += 1
-        rstudio_user_port += 1
+        ssh_user_port += 1
 
 
 

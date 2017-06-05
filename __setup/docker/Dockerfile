@@ -118,25 +118,20 @@ RUN Rscript -e 'source("http://bioconductor.org/biocLite.R");library(BiocInstall
 ENV SRC /usr/local/src
 ENV BIN /usr/local/bin
 
-ENV TRINITY_VERSION="2.2.0"
+ENV TRINITY_VERSION="2.4.0"
 
 WORKDIR $SRC
 
-RUN TRINITY_URL="https://github.com/trinityrnaseq/trinityrnaseq/archive/v${TRINITY_VERSION}.tar.gz" && \
-    wget $TRINITY_URL -O Trinity-${TRINITY_VERSION}.tar.gz
+RUN TRINITY_URL="https://github.com/trinityrnaseq/trinityrnaseq/archive/Trinity-v${TRINITY_VERSION}.tar.gz" && \
+    wget $TRINITY_URL
 
-RUN tar -xvf Trinity-${TRINITY_VERSION}.tar.gz
+RUN tar -xvf Trinity-v${TRINITY_VERSION}.tar.gz
 
-RUN cd trinityrnaseq-${TRINITY_VERSION} && make
+RUN cd trinityrnaseq-Trinity-v${TRINITY_VERSION} && make
 
-ENV TRINITY_HOME $SRC/trinityrnaseq-${TRINITY_VERSION}
-
-
-RUN cp $TRINITY_HOME/trinity-plugins/htslib/bgzip $BIN
+ENV TRINITY_HOME $SRC/trinityrnaseq-Trinity-v${TRINITY_VERSION}
 
 RUN cp $TRINITY_HOME/trinity-plugins/BIN/samtools $BIN
-
-RUN cp $TRINITY_HOME/trinity-plugins/htslib/tabix $BIN
 
 ENV PATH=${TRINITY_HOME}:${PATH}
 

@@ -3,12 +3,8 @@ workshop in Bern, Switzerland in Oct 2016
 
 trinity ws materials:
 
-*  pull workshop supporting code: git clone https://github.com/trinityrnaseq/BernWorkshop2016.git
-*  ftp'd data from Broad as: <https://data.broadinstitute.org/Trinity/RNASEQ_WORKSHOP/TRINITY_Bern_2016_ws_data_bundle.tar.gz>
-
-single cell ws materials:
-*  git clone https://github.com/TimothyTickle/single_cell_analysis.git
-
+*  pull workshop supporting code: git clone https://github.com/trinityrnaseq/BerlinTrinityWorkshop2017.git
+*  ftp'd data from Broad as: <https://data.broadinstitute.org/Trinity/RNASEQ_WORKSHOP/TRINITY_Berlin_2017_ws_data_bundle.tar.gz>
 
 ## Server Setup:
 
@@ -24,21 +20,15 @@ single cell ws materials:
 ### Pull the Docker images from Dockerhub:
 
     docker pull bernws2016/trinity
-    docker pull trinityctat/scell
-
 
 
 ### Prep shared folders under /home/training
 
-    sudo mv TRINITY_Bern_2016_ws_data_bundle.tar.gz /home/training
+    sudo mv TRINITY_Berlin_2017_ws_data_bundle.tar.gz /home/training
     su training
     cd $HOME
-    tar xvf TRINITY_Bern_2016_ws_data_bundle.tar.gz
+    tar xvf TRINITY_Berlin_2017_ws_data_bundle.tar.gz
 
-    # pull down the single cell workshop materials into the shared resources area
-    cd workshop_shared/shared
-    git clone https://github.com/TimothyTickle/single_cell_analysis.git
-    
     exit
 
 

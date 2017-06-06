@@ -254,7 +254,23 @@ RUN cp -r /usr/local/src/Trinotate/TrinotateWeb/cgi-bin/* /usr/lib/cgi-bin/. && 
 	ln -s /etc/apache2/mods-available/cgi.load /etc/apache2/mods-enabled/cgi.load
 
 
+# for TrinotateWeb so uses local JS
 RUN echo "SetEnv LOCAL_JS 1" >> /etc/apache2/apache2.conf
+
+
+# tmhmm
+WORKDIR $SRC
+
+ADD signalp-4.1.zip $SRC
+RUN unzip signalp-4.1.zip && \
+    ln -s $SRC/signalp-4.1/signalp /usr/local/bin/signalp && \
+    cp /usr/local/src/signalp-4.1/lib/FASTA.pm /usr/local/lib/site_perl/ && \
+    cp -r /usr/local/src/signalp-4.1 $BIN/
+
+ADD tmhmm-2.0c.zip $SRC
+RUN unzip tmhmm-2.0c.zip && \
+    cp -r $SRC/tmhmm-2.0c/bin/* /usr/local/bin/ && \
+    cp -r $SRC/tmhmm-2.0c/lib/* /usr/local/lib/
 
 
 WORKDIR $HOME

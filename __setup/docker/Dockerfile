@@ -273,5 +273,7 @@ RUN unzip tmhmm-2.0c.zip && \
     cp -r $SRC/tmhmm-2.0c/lib/* /usr/local/lib/
 
 
+RUN echo export TRINITY_HOME=/usr/local/src/trinityrnaseq-Trinity-v2.4.0 >> /etc/environment
+
 WORKDIR $HOME
 

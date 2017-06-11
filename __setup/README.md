@@ -1,12 +1,23 @@
 # BerlinTrinityWorkshop2017
 workshop in Bern, Switzerland in Oct 2016
 
-trinity ws materials:
+
+### Docker setup (instance initialization by AWS)
+
+#!/bin/bash
+curl https://get.docker.com | sh
+sudo usermod -a -G docker ubuntu
+sudo service docker start
+
+
+### trinity ws materials:
 
 *  pull workshop supporting code: git clone https://github.com/trinityrnaseq/BerlinTrinityWorkshop2017.git
 *  ftp'd data from Broad as: <https://data.broadinstitute.org/Trinity/RNASEQ_WORKSHOP/TRINITY_Berlin_2017_ws_data_bundle.tar.gz>
 
 ## Server Setup:
+
+AWS: m4.16xlarge, 1T disk, and assign elastic IP address.
 
 ### Create a user:pass of training:training
 
@@ -17,9 +28,13 @@ trinity ws materials:
     sudo chsh training -s /bin/bash
 
 
+### other basic software installations
+sudo apt-get install -y python
+
+
 ### Pull the Docker images from Dockerhub:
 
-    docker pull trinityctat/berlin2017
+    sudo docker pull trinityctat/berlin2017
 
 
 ### Prep shared folders under /home/training
@@ -30,6 +45,9 @@ trinity ws materials:
     tar xvf TRINITY_Berlin_2017_ws_data_bundle.tar.gz
 
     exit
+
+### retain elastic IP addr in bashrc
+export IPADDR=${elastic_ip} >> .bashrc 
 
 
 ### Create user workspaces
@@ -43,8 +61,8 @@ Every user will be assigned a numerical ID (eg. in the range 1..50) and ports wi
 We'll run the following to both create user directories and create commands that will be used for launching Docker containers.
 
     ~/BerlinTrinityWorkshop2017/__setup/user_setup/init_users.py \
-        --num_users 30 \
-	--ip_addr ${AWS_IP_ADDRESS} > cmds.list
+        --num_users 15 \
+	--ip_addr ${IPADDR} > cmds.list
 	
 The above will create directories:
 

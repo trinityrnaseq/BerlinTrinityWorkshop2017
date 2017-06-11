@@ -15,9 +15,9 @@ logging.basicConfig(stream=sys.stderr, level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 
-apache_user_port_default = 8000
-gateone_user_port_default = 9000
-sftp_user_port_default = 10000
+apache_user_port_default = 8001
+gateone_user_port_default = 9001
+sftp_user_port_default = 10001
 
 def main():
 
@@ -80,7 +80,7 @@ def main():
               "<td>{}</td>".format(attendee_name) +
               "<td><a href=\"{}\" target='_sshterm'>ssh terminal</a></td>".format(url_maker(ip_addr, gateone_user_port)) +
               "<td><a href=\"{}\" target='_apacheview'>apache</a></td>".format(url_maker(ip_addr, apache_user_port)) +
-              "<td>{}</td>".format(url_maker(ip_addr, sftp_user_port)) +
+              "<td>sftp -P {} training@{}</td>".format(sftp_user_port, ip_addr) +
               "</tr>")
         
         apache_user_port += 1

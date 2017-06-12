@@ -275,5 +275,20 @@ RUN unzip tmhmm-2.0c.zip && \
 
 RUN echo export TRINITY_HOME=/usr/local/src/trinityrnaseq-Trinity-v2.4.0 >> /etc/environment
 
+
+# install SRA toolkit
+WORKDIR $SRC
+
+RUN wget https://ftp-trace.ncbi.nlm.nih.gov/sra/sdk/2.8.2-1/sratoolkit.2.8.2-1-ubuntu64.tar.gz && \
+    tar zxvf sratoolkit.2.8.2-1-ubuntu64.tar.gz && \
+    cp -r sratoolkit.2.8.2-1-ubuntu64/bin/* /usr/local/bin/.
+
+
+ENV TERM=xterm-256color
+
+RUN apt-get update && apt-get install -y dialog screen && apt-get clean
+
 WORKDIR $HOME
+
+
 
